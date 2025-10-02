@@ -29,8 +29,8 @@ body:
     attributes:
       label: Ações de Follow-up
       options:
-        - Agendar nova entrevista
-        - Revisar MVP
-        - Ajustar comunicação
-        - Atualizar documentação
-        - Nenhuma ação necessária
+        - label: Agendar nova entrevista
+        - label: Revisar MVP
+        - label: Ajustar comunicação
+        - label: Atualizar documentação
+        - label: Nenhuma ação necessária
