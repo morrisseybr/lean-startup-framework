@@ -1,0 +1,35 @@
+name: Nova Hipótese
+description: Documentar uma nova hipótese de negócio para validação.
+labels: ["hypothesis", "needs-validation"]
+body:
+  - type: textarea
+    id: hypothesis-statement
+    attributes:
+      label: Declaração da Hipótese
+      description: Descreva claramente a hipótese a ser testada.
+    validations:
+      required: true
+  - type: dropdown
+    id: hypothesis-type
+    attributes:
+      label: Tipo de Hipótese
+      options:
+        - Problema
+        - Solução
+        - Canal
+        - Receita
+        - Crescimento
+    validations:
+      required: true
+  - type: textarea
+    id: success-metrics
+    attributes:
+      label: Métricas de Sucesso
+      description: Quais métricas indicarão que esta hipótese está validada?
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notas Adicionais
+      description: Informações adicionais ou contexto relevante.

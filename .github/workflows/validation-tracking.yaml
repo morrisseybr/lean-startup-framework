@@ -1,0 +1,64 @@
+name: Validation Tracking
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, closed, reopened]
+  issue_comment:
+    types: [created]
+jobs:
+  track-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Handle Validation Issue Changes
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issue = context.payload.issue;
+
+            const projectNumber = 1; // ID do projeto GitHub que gerencia o fluxo Lean Startup, atualize conforme seu setup
+            const LABELS_VALIDATION = ['hypothesis', 'experiment'];
+
+            // Captura labels da issue atuais
+            const labels = issue.labels.map(label => label.name);
+
+            // Função para adicionar comentário automático em issues validadas ou invalidas
+            async function addValidationComment(status) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `📝 A validação foi atualizada: status atual **${status}**. Por favor, siga o fluxo para próximos passos.`
+              });
+            }
+
+            // Verifica se existe label validada ou invalidada
+            if (labels.includes('validated')) {
+              await addValidationComment('Validada');
+              // Aqui pode-se integrar movimentação no Project, atualizar campo customizado, etc.
+            }
+
+            if (labels.includes('invalidated')) {
+              await addValidationComment('Invalidada');
+            }
+
+            // Adicional: responder a comandos em comentários para mudar status, se quiser
+            if (context.payload.comment) {
+              const commentBody = context.payload.comment.body.toLowerCase();
+              if (commentBody.includes('/validate')) {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  labels: ['validated']
+                });
+                await addValidationComment('Validada');
+              } else if (commentBody.includes('/invalidate')) {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  labels: ['invalidated']
+                });
+                await addValidationComment('Invalidada');
+              }
+            }

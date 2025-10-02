@@ -1,0 +1,73 @@
+name: Metrics Collection
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Executa toda segunda às 9h
+  workflow_dispatch:
+
+jobs:
+  collect-and-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Collect Issue Statistics
+        id: issues
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all',
+              labels: 'hypothesis',
+              per_page: 100
+            });
+
+            const totalHypotheses = issues.data.length;
+            const validatedCount = issues.data.filter(issue => issue.labels.some(label => label.name === 'validated')).length;
+            const invalidatedCount = issues.data.filter(issue => issue.labels.some(label => label.name === 'invalidated')).length;
+            const openCount = issues.data.filter(issue => issue.state === 'open').length;
+
+            return {
+              totalHypotheses,
+              validatedCount,
+              invalidatedCount,
+              openCount
+            };
+          result-encoding: string
+
+      - name: Create Weekly Metrics Report Issue
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const reportDate = new Date().toISOString().split('T')[0];
+            const stats = JSON.parse('${{ steps.issues.outputs.result }}');
+
+            const body = `
+            # 📊 Relatório Semanal de Métricas - ${reportDate}
+
+            ## Hipóteses
+            - Total: ${stats.totalHypotheses}
+            - Validadas: ${stats.validatedCount}
+            - Invalidada: ${stats.invalidatedCount}
+            - Abertas: ${stats.openCount}
+
+            ## Próximos Passos
+            - Análise detalhada das hipóteses abertas.
+            - Planejamento de novos experimentos.
+            - Continuação do ciclo Build-Measure-Learn.
+
+            ---
+            *Este relatório foi gerado automaticamente pelo workflow Metrics Collection.*
+            `;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `📊 Relatório Semanal - Métricas da Startup - ${reportDate}`,
+              body,
+              labels: ['metrics', 'weekly-report']
+            });

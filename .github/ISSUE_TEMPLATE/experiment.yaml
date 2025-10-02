@@ -1,0 +1,44 @@
+name: Novo Experimento
+description: Planejamento e execução de experimento para validação da hipótese.
+labels: ["experiment", "active"]
+body:
+  - type: input
+    id: experiment-name
+    attributes:
+      label: Nome do Experimento
+      description: Identifique o experimento.
+    validations:
+      required: true
+  - type: textarea
+    id: related-hypothesis
+    attributes:
+      label: Hipótese Relacionada
+      description: Link ou resumo da hipótese testada.
+    validations:
+      required: true
+  - type: textarea
+    id: experiment-description
+    attributes:
+      label: Descrição do Experimento
+      description: Detalhes do que será feito para testar a hipótese.
+    validations:
+      required: true
+  - type: datetime
+    id: start-date
+    attributes:
+      label: Data de Início
+      description: Quando o experimento se iniciará.
+    validations:
+      required: true
+  - type: datetime
+    id: end-date
+    attributes:
+      label: Data de Término Estimada
+      description: Quando o experimento deve ser concluído.
+  - type: textarea
+    id: success-criteria
+    attributes:
+      label: Critérios de Sucesso
+      description: O que indicaria que o experimento foi bem-sucedido.
+    validations:
+      required: true

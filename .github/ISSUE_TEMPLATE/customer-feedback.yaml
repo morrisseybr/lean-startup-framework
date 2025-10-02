@@ -1,0 +1,36 @@
+name: Feedback do Cliente
+description: Registro de feedbacks recebidos diretamente dos clientes.
+labels: ["customer-feedback", "feedback"]
+body:
+  - type: input
+    id: customer-name
+    attributes:
+      label: Nome do Cliente (opcional)
+      description: Pode ser anônimo, se preferir.
+  - type: textarea
+    id: feedback-summary
+    attributes:
+      label: Resumo do Feedback
+      description: Descreva o feedback principal recebido.
+    validations:
+      required: true
+  - type: textarea
+    id: channel
+    attributes:
+      label: Canal de Origem
+      description: Exemplo: entrevista, email, chat, social media, etc.
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impacto no Produto/Hipótese
+      description: Como esse feedback impacta nossas hipóteses e planos?
+  - type: checkboxes
+    id: follow-up-actions
+    attributes:
+      label: Ações de Follow-up
+      options:
+        - Agendar nova entrevista
+        - Revisar MVP
+        - Ajustar comunicação
+        - Atualizar documentação
+        - Nenhuma ação necessária

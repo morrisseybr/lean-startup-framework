@@ -1,0 +1,48 @@
+name: Decisão de Pivot
+description: Documentar decisão estratégica de pivot após análise dos dados.
+labels: ["pivot", "strategic-decision"]
+body:
+  - type: textarea
+    id: current-status
+    attributes:
+      label: Situação Atual
+      description: Descreva o cenário atual da startup ou produto.
+    validations:
+      required: true
+  - type: textarea
+    id: reasons-for-pivot
+    attributes:
+      label: Motivos para o Pivot
+      description: Por que essa decisão está sendo considerada?
+    validations:
+      required: true
+  - type: dropdown
+    id: pivot-type
+    attributes:
+      label: Tipo de Pivot
+      options:
+        - Segmento de Cliente
+        - Necessidade do Cliente
+        - Solução
+        - Modelo de Receita
+        - Canal de Venda
+        - Tecnologia
+        - Outros
+    validations:
+      required: true
+  - type: textarea
+    id: next-steps
+    attributes:
+      label: Próximos Passos
+      description: Quais ações serão tomadas após o pivot?
+    validations:
+      required: true
+  - type: checkboxes
+    id: stakeholder-approval
+    attributes:
+      label: Aprovação de Stakeholders
+      options:
+        - CEO
+        - CTO
+        - Product Manager
+        - Outros
