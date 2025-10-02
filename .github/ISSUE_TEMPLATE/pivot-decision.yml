@@ -21,13 +21,13 @@ body:
     attributes:
       label: Tipo de Pivot
       options:
-        - Segmento de Cliente
-        - Necessidade do Cliente
-        - Solução
-        - Modelo de Receita
-        - Canal de Venda
-        - Tecnologia
-        - Outros
+        - label: Segmento de Cliente
+        - label: Necessidade do Cliente
+        - label: Solução
+        - label: Modelo de Receita
+        - label: Canal de Venda
+        - label: Tecnologia
+        - label: Outros
     validations:
       required: true
   - type: textarea
@@ -42,7 +42,7 @@ body:
     attributes:
       label: Aprovação de Stakeholders
       options:
-        - CEO
-        - CTO
-        - Product Manager
-        - Outros
+        - label: CEO
+        - label: CTO
+        - label: Product Manager
+        - label: Outros
