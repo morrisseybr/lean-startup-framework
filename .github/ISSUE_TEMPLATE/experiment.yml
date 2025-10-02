@@ -23,14 +23,14 @@ body:
       description: Detalhes do que será feito para testar a hipótese.
     validations:
       required: true
-  - type: datetime
+  - type: input
     id: start-date
     attributes:
       label: Data de Início
       description: Quando o experimento se iniciará.
     validations:
       required: true
-  - type: datetime
+  - type: input
     id: end-date
     attributes:
       label: Data de Término Estimada
